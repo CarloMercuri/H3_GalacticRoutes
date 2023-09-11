@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace BagageSortering.Data.Database.Processing
+namespace Galactic.Data.Processing
 {
     public class CsvDataFetcher : ITokenDataFetching
     {
@@ -58,20 +58,8 @@ namespace BagageSortering.Data.Database.Processing
                 lock (LogFileLock)
                 {
                     List<string> fileData = File.ReadAllLines(Path.Combine(FolderPath, tokens_File)).ToList();
-
-                    //Uses StreamWriter to write data to file. 
-                    using (StreamWriter writer = new StreamWriter(Path.Combine(FolderPath, tokens_File), false))
-                    {
-                        fileData.Add(data.CreateCsvFileLine());
-
-                        foreach(string s in fileData)
-                        {
-                            writer.WriteLine(s);
-
-                        }
-                        writer.Flush();
-                        writer.Close();
-                    }
+                    fileData.Add(data.CreateCsvFileLine());
+                    WriteAllToFile(fileData);
                 }
 
                 return true;
@@ -81,6 +69,31 @@ namespace BagageSortering.Data.Database.Processing
                 return false;
             }
             
+        }
+
+        private bool WriteAllToFile(List<string> fileData) 
+        {
+            try
+            {
+                //Uses StreamWriter to write data to file. 
+                using (StreamWriter writer = new StreamWriter(Path.Combine(FolderPath, tokens_File), false))
+                {
+
+                    foreach (string s in fileData)
+                    {
+                        writer.WriteLine(s);
+
+                    }
+                    writer.Flush();
+                    writer.Close();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
 
@@ -98,6 +111,17 @@ namespace BagageSortering.Data.Database.Processing
             {
                 found.TokenHash = data.TokenHash;
                 found.ExpirationDate = data.ExpirationDate;
+
+                List<string> allLines = new List<string>();
+
+                allLines.Add(found.CreateCsvHeaderLine());
+
+                foreach(TokenDatabaseData d in tokens)
+                {
+                    allLines.Add(d.CreateCsvFileLine());
+                }
+
+                return WriteAllToFile(allLines);
             }
 
             return true;

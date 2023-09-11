@@ -18,14 +18,6 @@ namespace Galactic.Data.Encryption
                 return Convert.ToBase64String(algorithm.ComputeHash(Encoding.UTF8.GetBytes(token)));
         }
 
-        public string GenerateEmailActivationString()
-        {
-            Random random = new Random();
-            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            return new string(Enumerable.Repeat(chars, 64)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
         public string GeneratePrefix()
         {
             var tokenBytes = new byte[PrefixSize];
@@ -48,29 +40,6 @@ namespace Galactic.Data.Encryption
             }
 
             return Convert.ToBase64String(tokenBytes);
-        }
-
-        public string GenerateSalt()
-        {
-            return Convert.ToBase64String(GenerateSaltBytes());
-        }
-
-        public byte[] GenerateSaltBytes()
-        {
-            /*
-             RandomNumberGenerator randomNumberGenerator = RandomNumberGenerator.Create();
-             byte[] salt = new byte[128];
-             randomNumberGenerator.GetBytes(salt);
-            */
-
-            var saltBytes = new byte[HashSize];
-
-            using (var provider = new RNGCryptoServiceProvider())
-            {
-                provider.GetNonZeroBytes(saltBytes);
-            }
-
-            return saltBytes;
         }
     }
 }
