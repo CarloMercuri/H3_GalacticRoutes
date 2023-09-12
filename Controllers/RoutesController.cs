@@ -1,6 +1,7 @@
 ﻿using Galactic.Processing.Interfaces;
 using Galactic.Processing.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using System.Net;
 
 namespace Galactic.Controllers
@@ -18,11 +19,21 @@ namespace Galactic.Controllers
 
         [HttpGet]
         [Route("GetRoute")]
-        public IActionResult GetRoute(string routeName, string token)
+        public IActionResult GetRoute(string routeName)
         {
             try
             {
-                RouteRequestOperation result = _processor.GetRoute(routeName, token);
+                string tokenActual = "";
+                if (Request.Headers.TryGetValue("RouteRequestToken", out StringValues requestTokenValues))
+                {
+                    tokenActual = requestTokenValues;
+                }
+                else
+                {
+                    return BadRequest("Missing authentication token.");
+                }
+
+                RouteRequestOperation result = _processor.GetRoute(routeName, tokenActual);
 
                 if (result.Success)
                 {

@@ -1,2 +1,5 @@
 Name,Role,Prefix,TokenHash,ExpirationDate,Permissions
-Csssdrlo,Captain,0MVr9m3omio=,5nABqfUbbLdQSoOhQOLlNmrVXD3rnFEMY2xKOxbKwEQ=,2023-09-13 20.58,routes.read
+Csssdrlo,Captain,0MVr9m3omio=,5nABqfUbbLdQSoOhQOLlNmrVXD3rnFEMY2xKOxbKwEQ=,2023-09-13 20.58
+test,Captain,3Bi2IUCoqZg=,D/Avxv0VcyqC8/XSpiYjLT+Nu2NFxWTyJhhd1DCtdm4=,2023-09-14 08:49
+tests,Cadet,a/X4j4X5Rw4=,H/iacHKfVNdiUpHLEMgRlrxzWyMZLMKrko/obmqL4gY=,2023-09-14 08:51
+Testnew,Captain,Gl57xLWz99A=,+b6Kn89KJzwbkZeXEllYAKb8NIvG08w0ihuTjT9FE8g=,2023-09-14 09:01,routes.read

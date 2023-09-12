@@ -24,7 +24,7 @@ namespace Galactic.Controllers
                 return Ok(plainText);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return base.StatusCode((int)HttpStatusCode.InternalServerError, "Internal error");
             }

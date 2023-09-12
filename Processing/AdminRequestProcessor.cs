@@ -31,11 +31,13 @@ namespace Galactic.Processing
 
             plainTextToken = _tokenProcessor.CreateToken();
 
+            // If existing, then we can update it.
+            // Updateable fields: token, role, expiration date
             if (found != null)
             {
                 TokenDatabaseData db = new TokenDatabaseData();
                 db.Name = found.Name;
-                db.Role = found.Role;
+                db.Role = isCaptain? "Captain" : "Cadet";
                 db.Prefix = found.Prefix;
                 db.TokenHash = _tokenProcessor.HashToken(plainTextToken);
                 db.ExpirationDate = (DateTime.Now + request.TokenDuration).ToString("yyyy-MM-dd HH:mm");
@@ -45,7 +47,7 @@ namespace Galactic.Processing
             }
             else
             {
-                
+                // Create a new one
                 TokenDatabaseData db = new TokenDatabaseData();
                 db.Name = personName;
                 db.Role = isCaptain? "Captain" : "Cadet";
